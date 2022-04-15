@@ -1,4 +1,4 @@
-package maze;
+package puzzles.common;
 
 /**
  * A simple implementation of two-dimensional integer-based coordinates.

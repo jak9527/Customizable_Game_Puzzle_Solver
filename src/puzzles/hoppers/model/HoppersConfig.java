@@ -6,14 +6,11 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 // TODO: implement your HoppersConfig for the common solver
 
-public class HoppersConfig {
+public class HoppersConfig implements Configuration{
     /** Row Dim */
     private static int row;
     /** Column Dim */
@@ -34,12 +31,33 @@ public class HoppersConfig {
                 for(int c = 0; c < col; c++){
                     board[r][c] = fields[c].charAt(0);
                     if(fields[c].charAt(0) == 'G' || fields[c].charAt(0) == 'R'){
-                        frogPos.add(new Frog(r, c));
+                        frogPos.add(new Frog(r, c, fields[c].charAt(0)));
                     }
                 }
             }
         }
     }
 
+    public HoppersConfig(int startR, int startC, int endR, int endC, HoppersConfig other){
+        this.board =new char[row][col];
+        for(int r = 0; r<row; r++){
+            System.arraycopy(other.board[r], 0, this.board[r], 0, col);
+        }
+        board[endR][endC] = board[startR][startC];
+        board[startR][startC] = '.';
 
+
+
+    }
+
+
+    @Override
+    public boolean isSolution() {
+        return frogPos.size()==1;
+    }
+
+    @Override
+    public Collection<Configuration> getNeighbors() {
+        return null;
+    }
 }

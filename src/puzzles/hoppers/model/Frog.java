@@ -3,10 +3,12 @@ package puzzles.hoppers.model;
 public class Frog {
     private int row;
     private int col;
+    private boolean isRed;
 
-    public Frog(int row, int col){
+    public Frog(int row, int col, char frog){
         this.row = row;
         this.col = col;
+        this.isRed = (frog == 'R');
     }
 
     public int getRow(){
@@ -14,5 +16,8 @@ public class Frog {
     }
     public int getCol(){
         return this.col;
+    }
+    public boolean isRed(){
+        return isRed;
     }
 }
