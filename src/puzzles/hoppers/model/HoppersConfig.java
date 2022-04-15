@@ -15,10 +15,14 @@ public class HoppersConfig implements Configuration{
     private static int row;
     /** Column Dim */
     private static int col;
+    /** Character for green frogs */
+    private final char GREEN_FROG = 'G';
+    /** Character for red frogs */
+    private final char RED_FROG = 'R';
     /** 2d char array holding positions */
     private char[][] board;
     /** hashSet holding all frog positions */
-    private HashSet<Frog> frogPos = new HashSet<>();
+    private static HashSet<Frog> frogPos = new HashSet<>();
 
     public HoppersConfig(String filename) throws IOException {
         try (BufferedReader in = new BufferedReader(new FileReader(filename))) {
@@ -30,7 +34,7 @@ public class HoppersConfig implements Configuration{
                 fields = in.readLine().split("\\s+");
                 for(int c = 0; c < col; c++){
                     board[r][c] = fields[c].charAt(0);
-                    if(fields[c].charAt(0) == 'G' || fields[c].charAt(0) == 'R'){
+                    if(fields[c].charAt(0) == GREEN_FROG || fields[c].charAt(0) == RED_FROG){
                         frogPos.add(new Frog(r, c, fields[c].charAt(0)));
                     }
                 }
@@ -45,8 +49,47 @@ public class HoppersConfig implements Configuration{
         }
         board[endR][endC] = board[startR][startC];
         board[startR][startC] = '.';
+        frogPos.remove(new Frog(startR, startC, board[endC][endR]));
+        frogPos.add(new Frog(endR, endC, board[endC][endR]));
 
-
+        if(endR>startR){
+            if(endC>startC){
+                frogPos.remove(new Frog(endR+1, endC+1, board[endR+1][endC+1]));
+                board[endR+1][endC+1] = '.';
+            }
+            if(endC<startC){
+                frogPos.remove(new Frog(endR+1, endC-1, board[endR+1][endC-1]));
+                board[endR+1][endC-1] = '.';
+            }
+            else{
+                frogPos.remove(new Frog(endR+1, endC, board[endR+1][endC]));
+                board[endR+1][endC] = '.';
+            }
+        }
+        if(endR<startR){
+            if(endC>startC){
+                frogPos.remove(new Frog(endR-1, endC+1, board[endR+1][endC+1]));
+                board[endR-1][endC+1] = '.';
+            }
+            if(endC<startC){
+                frogPos.remove(new Frog(endR-1, endC-1, board[endR+1][endC-1]));
+                board[endR-1][endC-1] = '.';
+            }
+            else{
+                frogPos.remove(new Frog(endR-1, endC, board[endR+1][endC]));
+                board[endR-1][endC] = '.';
+            }
+        }
+        else{
+            if(endC>startC){
+                frogPos.remove(new Frog(endR, endC+1, board[endR][endC+1]));
+                board[endR][endC+1] = '.';
+            }
+            if(endC<startC){
+                frogPos.remove(new Frog(endR, endC-1, board[endR+1][endC-1]));
+                board[endR][endC-1] = '.';
+            }
+        }
 
     }
 
