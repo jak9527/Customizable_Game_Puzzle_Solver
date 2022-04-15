@@ -74,14 +74,8 @@ public class CrossingConfig implements Configuration{
                 neighbors.add(new CrossingConfig(pupsL, pupsR, wolvesL - 1, wolvesR + 1, 1));
             }
         } else {
-            if (pupsR > 1){
-                neighbors.add(new CrossingConfig(pupsL + 2, pupsR - 2, wolvesL, wolvesR, 0));
-            }
             if (pupsR > 0){
                 neighbors.add(new CrossingConfig(pupsL + 1, pupsR - 1, wolvesL, wolvesR, 0));
-            }
-            if (wolvesR > 0){
-                neighbors.add(new CrossingConfig(pupsL, pupsR, wolvesL + 1, wolvesR - 1, 0));
             }
         }
         return neighbors;
