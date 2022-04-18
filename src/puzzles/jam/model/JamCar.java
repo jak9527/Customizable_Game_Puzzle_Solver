@@ -14,4 +14,9 @@ public class JamCar {
         this.startCoord = start;
         this.endCoord = end;
     }
+
+    public boolean isSolved(){
+        return (endCoord.col() == JamConfig.columns);
+
+    }
 }
