@@ -181,8 +181,12 @@ public class HoppersConfig implements Configuration{
             catch (IndexOutOfBoundsException ignored){
             }
         }
-
         return neighbors;
+    }
+
+    @Override
+    public String toString(){
+        return Arrays.deepToString(board);
     }
 }
 
