@@ -7,6 +7,12 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class HoppersModel {
+
+    /**
+     * Possible game states
+     */
+    public enum GameState { ONGOING, WON, LOST, ILLEGAL_MOVE }
+
     /** the collection of observers of this model */
     private final List<Observer<HoppersModel, String>> observers = new LinkedList<>();
 
