@@ -26,6 +26,11 @@ public class HoppersConfig implements Configuration{
     /** hashSet holding all frog positions */
     private HashSet<Frog> frogPos = new HashSet<>();
 
+    /**
+     * Constructor for an initial config. Reads file into it and sets all appropriate data.
+     * @param filename file to be read
+     * @throws IOException to be handled in model
+     */
     public HoppersConfig(String filename) throws IOException {
         try (BufferedReader in = new BufferedReader(new FileReader(filename))) {
             String[] fields = in.readLine().split("\\s+");
@@ -44,6 +49,16 @@ public class HoppersConfig implements Configuration{
         }
     }
 
+    /**
+     * Constructor for making copies
+     * @param startR the starting row of a frog that hopped
+     * @param startC the starting col of a frog that hopped
+     * @param endR the ending row of a frog that hopped
+     * @param endC the ending col of a frog that hopped
+     * @param jumpedR the frog that was hopped row
+     * @param jumpedC the frog that was hopped col
+     * @param other the other frog to copy from
+     */
     public HoppersConfig(int startR, int startC, int endR, int endC, int jumpedR, int jumpedC, HoppersConfig other){
         this.board =new char[row][col];
         for(int r = 0; r<row; r++){
@@ -61,10 +76,18 @@ public class HoppersConfig implements Configuration{
 
     }
 
+    /**
+     * get the frog pos set
+     * @return the frog pos set
+     */
     public HashSet<Frog> getFrogs(){
         return frogPos;
     }
 
+    /**
+     * Is this config a solution?
+     * @return if there is only 1 frog left, and it is red
+     */
     @Override
     public boolean isSolution() {
         boolean result = frogPos.size()==1;
@@ -73,6 +96,10 @@ public class HoppersConfig implements Configuration{
         return result;
     }
 
+    /**
+     * get the possible neighbors of the current config
+     * @return a list of neighbors
+     */
     @Override
     public Collection<Configuration> getNeighbors() {
         ArrayList<Configuration> neighbors = new ArrayList<>();
@@ -153,27 +180,40 @@ public class HoppersConfig implements Configuration{
         return neighbors;
     }
 
+    /**
+     * Get the board of the current config
+     * @return the board
+     */
     public char[][] getBoard(){
         return board;
     }
 
+    /**
+     * get a string representation of the current config
+     * @return the string representation
+     */
     @Override
     public String toString(){
         String result = "";
         for(int i = 0; i<row; i++){
             for(int j = 0; j<col; j++){
-                result+=Character.toString(board[i][j]);
+                result += Character.toString(board[i][j]);
                 if(!(j==(col-1))){
                     result+= " ";
                 }
 
             }
-            result+= "\n";
+            result += "\n";
 
         }
         return result;
     }
 
+    /**
+     * is this equal to o?
+     * @param o other config to check
+     * @return if the boards are the same
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -182,6 +222,10 @@ public class HoppersConfig implements Configuration{
         return Arrays.deepEquals(this.board, ((HoppersConfig) o).board);
     }
 
+    /**
+     * hash this config
+     * @return deepHashcode of the board
+     */
     @Override
     public int hashCode() {
         int result = Arrays.deepHashCode(board);
