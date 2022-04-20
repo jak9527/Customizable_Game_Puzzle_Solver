@@ -31,8 +31,26 @@ public class JamConfig implements Configuration{
     @Override
     public Collection<Configuration> getNeighbors() {
         ArrayList<Configuration> neighbors = new ArrayList<>();
-        for (JamCar car:carMap.){
-            carMap.
+        for (JamCar car:carMap.values()){
+            int carEndCoordCol = car.getEndCoord().col();
+            int carEndCoordRow = car.getEndCoord().row();
+            int carStartCoordCol = car.getStartCoord().col();
+            int carStartCoordRow = car.getStartCoord().row();
+            if (!car.isHorizontal()) {
+                neighbors.add(new JamCar(car.getCarLtr(),
+                        new Coordinates(carStartCoordRow + 1, carStartCoordCol),
+                        new Coordinates(carEndCoordRow + 1, carEndCoordCol)));
+                neighbors.add(new JamCar(car.getCarLtr(),
+                        new Coordinates(carStartCoordRow - 1, carStartCoordCol),
+                        new Coordinates(carEndCoordRow - 1, carEndCoordCol)));
+            } else {
+                neighbors.add(new JamCar(car.getCarLtr(),
+                        new Coordinates(carStartCoordRow, carStartCoordCol + 1),
+                        new Coordinates(carEndCoordRow, carEndCoordCol + 1)));
+                neighbors.add(new JamCar(car.getCarLtr(),
+                        new Coordinates(carStartCoordRow, carStartCoordCol - 1),
+                        new Coordinates(carEndCoordRow, carEndCoordCol - 1)));
+            }
 
         }
         return null;
