@@ -23,6 +23,29 @@ public class JamConfig implements Configuration{
     public JamConfig(String filename) throws IOException{
         try (BufferedReader in = new BufferedReader(new FileReader(filename))){
             String[] dimensions = in.readLine().split(" ");
+            rows = Integer.parseInt(dimensions[0]);
+            columns = Integer.parseInt(dimensions[1]);
+            int numCars = Integer.parseInt(in.readLine());
+            HashMap<Coordinates, JamCar> cars = new HashMap<>();
+            JamCar currentCar = null;
+            for (int i = 0; i < numCars; i++){
+                String[] carCoords = in.readLine().split(" ");
+                currentCar = (new JamCar(carCoords[0].charAt(0),
+                        new Coordinates(carCoords[1], carCoords[2]),
+                        new Coordinates(carCoords[3], carCoords[4])));
+                if (currentCar.isHorizontal()){
+                    for (int j = Integer.parseInt(carCoords[2]); j < Integer.parseInt(carCoords [4]); j++){
+                        cars.put(new Coordinates(Integer.parseInt(carCoords[1]), j), currentCar);
+                    }
+                } else {
+                    for (int j = Integer.parseInt(carCoords[1]); j < Integer.parseInt(carCoords [3]); j++){
+                        cars.put(new Coordinates(j, Integer.parseInt(carCoords[2])), currentCar);
+                    }
+
+                }
+            }
+            goalCar = currentCar;
+
         }
     }
 
