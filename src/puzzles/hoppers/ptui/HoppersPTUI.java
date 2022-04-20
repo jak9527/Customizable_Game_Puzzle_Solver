@@ -86,6 +86,7 @@ public class HoppersPTUI extends ConsoleApplication implements Observer<HoppersM
     }
 
     public void hint(){
+        this.out.println("Please wait, loading");
         this.model.hint();
     }
 
