@@ -22,6 +22,8 @@ public class Strings {
             System.out.println("Start: " + args[0] +", End: " + args[1]);
             Solver jacobCringe = new Solver();
             Collection<Configuration> path = jacobCringe.findPath(new StringsConfig(args[0], args[1]));
+            System.out.println("Total configs: " + jacobCringe.getTotalConfigs());
+            System.out.println("Unique configs: " + jacobCringe.getUniqueConfigs());
             int i = 0;
             if (path == null){
                 System.out.println("No solution");

@@ -146,6 +146,22 @@ public class JamConfig implements Configuration{
     }
 
     @Override
+    public String toString(){
+        String result ="";
+        for (int i = 0; i < rows; i++){
+            for (int j = 0; j < columns; j++){
+                if (carMap.containsKey(new Coordinates(i,j))){
+                    result += carMap.get(new Coordinates(i,j)).getCarLtr();
+                } else {
+                    result += " ";
+                }
+            }
+            result += "\n";
+        }
+        return result;
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
