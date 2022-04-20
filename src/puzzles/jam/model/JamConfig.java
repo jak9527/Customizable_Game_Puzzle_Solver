@@ -28,6 +28,11 @@ public class JamConfig implements Configuration{
         }
     }
 
+    public JamConfig(HashMap<Coordinates, JamCar> carMap, JamCar goalCar){
+        this.carMap = carMap;
+        this.goalCar = goalCar;
+    }
+
     @Override
     public Collection<Configuration> getNeighbors() {
         ArrayList<Configuration> neighbors = new ArrayList<>();
