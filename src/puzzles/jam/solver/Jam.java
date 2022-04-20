@@ -18,6 +18,7 @@ public class Jam {
                 Solver jamSolver = new Solver();
                 Collection<Configuration> jamPath= jamSolver.findPath(startConfig);
                 System.out.println("File: " + args[0]);
+                System.out.println(startConfig.toString());
                 System.out.println("Total configs: " + jamSolver.getTotalConfigs());
                 System.out.println("Unique configs: " + jamSolver.getUniqueConfigs());
                 int i = 0;

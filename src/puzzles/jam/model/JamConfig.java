@@ -34,16 +34,17 @@ public class JamConfig implements Configuration{
                         new Coordinates(carCoords[1], carCoords[2]),
                         new Coordinates(carCoords[3], carCoords[4])));
                 if (currentCar.isHorizontal()){
-                    for (int j = Integer.parseInt(carCoords[2]); j < Integer.parseInt(carCoords [4]); j++){
+                    for (int j = Integer.parseInt(carCoords[2]); j <= Integer.parseInt(carCoords [4]); j++){
                         cars.put(new Coordinates(Integer.parseInt(carCoords[1]), j), currentCar);
                     }
                 } else {
-                    for (int j = Integer.parseInt(carCoords[1]); j < Integer.parseInt(carCoords [3]); j++){
+                    for (int j = Integer.parseInt(carCoords[1]); j <= Integer.parseInt(carCoords [3]); j++){
                         cars.put(new Coordinates(j, Integer.parseInt(carCoords[2])), currentCar);
                     }
 
                 }
             }
+            carMap = cars;
             goalCar = currentCar;
 
         }
@@ -151,11 +152,12 @@ public class JamConfig implements Configuration{
         for (int i = 0; i < rows; i++){
             for (int j = 0; j < columns; j++){
                 if (carMap.containsKey(new Coordinates(i,j))){
-                    result += carMap.get(new Coordinates(i,j)).getCarLtr();
+                    result += carMap.get(new Coordinates(i,j)).getCarLtr() + " ";
                 } else {
-                    result += " ";
+                    result += ". ";
                 }
             }
+            result = result.substring(0, result.length() - 1);
             result += "\n";
         }
         return result;
