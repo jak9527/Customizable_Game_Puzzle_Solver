@@ -217,6 +217,27 @@ public class HoppersConfig implements Configuration{
         return result;
     }
 
+    public char getGREEN_FROG(){
+        return GREEN_FROG;
+    }
+
+    public char getRED_FROG(){
+        return RED_FROG;
+    }
+
+    public char getEMPTY(){
+        return EMPTY;
+    }
+
+    public String rowToString(int row){
+        String result = "";
+        for(int i = 0; i<col; i++){
+            result += " ";
+            result += board[row][i];
+        }
+        return result;
+    }
+
     /**
      * is this equal to o?
      * @param o other config to check

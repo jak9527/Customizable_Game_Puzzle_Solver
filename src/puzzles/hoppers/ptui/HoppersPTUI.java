@@ -38,32 +38,15 @@ public class HoppersPTUI extends ConsoleApplication implements Observer<HoppersM
      * secret word.
      */
     @Override public void init() throws Exception {
-//        this.initialized = false;
-//        this.model = new HoppersModel();
-//        this.model.addObserver( this );
-//
-//        List< String > paramStrings = super.getArguments();
-//        if ( paramStrings.size() == 1 ) {
-//            final String filename = paramStrings.get( 0 );
-//            try{
-//                this.model.newGame( filename );
-//            }
-//            catch(IOException e){
-//
-//            }
-//            else {
-//                throw new Exception(
-//                        String.format(
-//                                "\"%s\" is not the required word length (%d)." +
-//                                        System.lineSeparator(),
-//                                firstWord, Model.WORD_SIZE
-//                        )
-//                );
-//            }
-//        }
-//        else {
-//            this.model.newGame();
-//        }
+        this.initialized = false;
+
+        List<String> paramStrings = super.getArguments();
+        if (paramStrings.size() == 1) {
+            final String filename = paramStrings.get(0);
+            this.model = new HoppersModel(filename);
+            this.model.newGame(filename);
+            this.model.addObserver(this);
+        }
     }
 
     @Override
@@ -77,6 +60,9 @@ public class HoppersPTUI extends ConsoleApplication implements Observer<HoppersM
         if (args.length != 1) {
             System.out.println("Usage: java HoppersPTUI filename");
         }
+        else{
+            ConsoleApplication.launch(HoppersPTUI.class, args);
+        }
     }
 
     @Override
@@ -84,7 +70,7 @@ public class HoppersPTUI extends ConsoleApplication implements Observer<HoppersM
         this.out = console;
         this.initialized = true;
         super.setOnCommand( "s", 2, "<Move>: Select a coordinate",
-                args -> this.model.selectFrog( args[ 2 ] )
+                args -> this.model.selectFrog( Integer.parseInt(args[ 0 ]), Integer.parseInt(args [ 1 ]) )
         );
         super.setOnCommand( "h", 0, ": show the next step",
                 args -> this.hint()
@@ -95,10 +81,24 @@ public class HoppersPTUI extends ConsoleApplication implements Observer<HoppersM
         super.setOnCommand("r", 0, ": reset the current puzzle",
                 args -> this.reset()
         );
+        this.out.println("Make a move!");
+        this.out.println(this.getCurrentStep());
+    }
+
+    public void hint(){
+        this.model.hint();
+    }
+
+    public void newGame(String filename){
+        this.model.newGame(filename);
+    }
+
+    public void reset(){
+        this.model.reset();
     }
 
     public String getCurrentStep(){
-        String result = "   ";
+        String result = "  ";
         String config = model.getCurrentConfig().toString();
         for(int i = 0; i < model.getCurrentConfig().getCol(); i++){
             result += " " + i;
@@ -110,9 +110,10 @@ public class HoppersPTUI extends ConsoleApplication implements Observer<HoppersM
         result += "\n";
         for(int i = 0; i < model.getCurrentConfig().getRow(); i++){
             result += i + "|";
-            for(int j = 0; j < model.getCurrentConfig().getCol(); j++){
-                result += config.substring(j,j+2);
-            }
+//            for(int j = 0; j < model.getCurrentConfig().getCol(); j++){
+//                result += config.substring(j,j+2);
+//            }
+            result += model.getCurrentConfig().rowToString(i);
             result += "\n";
         }
         return result;
