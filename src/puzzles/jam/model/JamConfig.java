@@ -63,12 +63,12 @@ public class JamConfig implements Configuration{
                 }
                 if (!carMap.containsKey(new Coordinates(carStartCoordRow - 1, carStartCoordCol))) {
                     HashMap<Coordinates, JamCar> newCarMap = (HashMap<Coordinates, JamCar>) carMap.clone();
-                    newCarMap.remove(car.getStartCoord());
+                    newCarMap.remove(car.getEndCoord());
                     JamCar currentCar = new JamCar(car.getCarLtr(),
-                            new Coordinates(carStartCoordRow + 1, carStartCoordCol),
-                            new Coordinates(carEndCoordRow + 1, carEndCoordCol));
-                    newCarMap.put(new Coordinates(carEndCoordRow + 1, carEndCoordCol), currentCar);
-                    for (int i = carEndCoordRow; i > carStartCoordRow; i--){
+                            new Coordinates(carStartCoordRow - 1, carStartCoordCol),
+                            new Coordinates(carEndCoordRow - 1, carEndCoordCol));
+                    newCarMap.put(new Coordinates(carStartCoordRow - 1, carEndCoordCol), currentCar);
+                    for (int i = carStartCoordRow; i < carEndCoordRow; i++){
                         newCarMap.replace(new Coordinates(i, carStartCoordCol), currentCar);
                     }
                     if (currentCar.getCarLtr() == 'X'){
@@ -82,11 +82,11 @@ public class JamConfig implements Configuration{
                         HashMap<Coordinates, JamCar> newCarMap = (HashMap<Coordinates, JamCar>) carMap.clone();
                         newCarMap.remove(car.getStartCoord());
                         JamCar currentCar = new JamCar(car.getCarLtr(),
-                                new Coordinates(carStartCoordRow + 1, carStartCoordCol),
-                                new Coordinates(carEndCoordRow + 1, carEndCoordCol));
-                        newCarMap.put(new Coordinates(carEndCoordRow + 1, carEndCoordCol), currentCar);
-                        for (int i = carEndCoordRow; i > carStartCoordRow; i--){
-                            newCarMap.replace(new Coordinates(i, carStartCoordCol), currentCar);
+                                new Coordinates(carStartCoordRow, carStartCoordCol + 1),
+                                new Coordinates(carEndCoordRow, carEndCoordCol + 1));
+                        newCarMap.put(new Coordinates(carEndCoordRow, carEndCoordCol + 1), currentCar);
+                        for (int i = carEndCoordCol; i > carStartCoordCol; i--){
+                            newCarMap.replace(new Coordinates(carStartCoordRow, i), currentCar);
                         }
                         if (currentCar.getCarLtr() == 'X'){
                             neighbors.add(new JamConfig(newCarMap, currentCar));
@@ -98,11 +98,11 @@ public class JamConfig implements Configuration{
                     HashMap<Coordinates, JamCar> newCarMap = (HashMap<Coordinates, JamCar>) carMap.clone();
                     newCarMap.remove(car.getStartCoord());
                     JamCar currentCar = new JamCar(car.getCarLtr(),
-                            new Coordinates(carStartCoordRow + 1, carStartCoordCol),
-                            new Coordinates(carEndCoordRow + 1, carEndCoordCol));
-                    newCarMap.put(new Coordinates(carEndCoordRow + 1, carEndCoordCol), currentCar);
-                    for (int i = carEndCoordRow; i > carStartCoordRow; i--){
-                        newCarMap.replace(new Coordinates(i, carStartCoordCol), currentCar);
+                            new Coordinates(carStartCoordRow, carStartCoordCol - 1),
+                            new Coordinates(carEndCoordRow, carEndCoordCol - 1));
+                    newCarMap.put(new Coordinates(carEndCoordRow, carEndCoordCol - 1), currentCar);
+                    for (int i = carStartCoordCol; i < carEndCoordCol; i++){
+                        newCarMap.replace(new Coordinates(carStartCoordRow, i), currentCar);
                     }
                     if (currentCar.getCarLtr() == 'X'){
                         neighbors.add(new JamConfig(newCarMap, currentCar));
@@ -113,7 +113,7 @@ public class JamConfig implements Configuration{
             }
 
         }
-        return null;
+        return neighbors;
     }
 
     @Override
