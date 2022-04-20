@@ -85,6 +85,7 @@ public class HoppersModel {
 
     private void newGameUtil(String filename) throws IOException {
         this.currentConfig = new HoppersConfig(filename);
+        alertObservers("Make a guess!");
     }
 
     public void hint(){
@@ -95,13 +96,18 @@ public class HoppersModel {
             alertObservers("You Won!");
         }
         else{
-            alertObservers("Make a guess");
+            alertObservers("Here is the next move, now make a guess");
         }
     }
 
     public void reset(){
         try {
             currentConfig = new HoppersConfig(this.puzzleName);
+            startR = -1;
+            endR = -1;
+            startC = -1;
+            endC = -1;
+            frogSelected = false;
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -115,43 +121,44 @@ public class HoppersModel {
             endR = row;
             endC = col;
             if(row > currentConfig.getRow() || col > currentConfig.getCol() || row < 0 || col < 0 ||
-                    (Math.abs(endR-startR)==2 || Math.abs(endR-startR)==4)){
-                alertObservers("Outside of area. Please select a new coordinate");
+                    !(Math.abs(endR-startR)==2 || Math.abs(endR-startR)==4)){
+                frogSelected = false;
+                alertObservers("Outside of movable area. Please select a new frog");
             }
             else if(!(currentConfig.getBoard()[row][col] == currentConfig.getEMPTY())){
-                alertObservers("No Space to jump! Please select a new coordinate");
+                frogSelected = false;
+                alertObservers("No Space to jump! Please select a new frog");
             }
             else{
-
                 frogSelected = false;
                 if(Math.abs(endR-startR)==2){
                     if(endR < startR){
                         jumpedR = endR+1;
                         if(endC > startC){
-                            jumpedC = endC+1;
+                            jumpedC = endC-1;
                         }
                         else{
-                            jumpedC = endC-1;
+                            jumpedC = endC+1;
                         }
 
                     }
                     else if(endR > startR){
                         jumpedR = endR-1;
                         if(endC > startC){
-                            jumpedC = endC+1;
+                            jumpedC = endC-1;
                         }
                         else{
-                            jumpedC = endC-1;
+                            jumpedC = endC+1;
                         }
                     }
                 }
                 else{
                     if(endR < startR){
-                        jumpedR = endR+2;
+                        jumpedR = endR-2;
                         jumpedC = endC;
                     }
                     else if(endR > startR){
-                        jumpedR = endR-2;
+                        jumpedR = endR+2;
                         jumpedC = endC;
                     }
                     else if(endC < startC){
@@ -164,17 +171,21 @@ public class HoppersModel {
                     }
                 }
                 currentConfig = new HoppersConfig(startR, startC, endR, endC, jumpedR, jumpedC, currentConfig);
-                frogSelected = false;
-                alertObservers("Make a move!");
+                if(currentConfig.isSolution()){
+                    alertObservers("You Win!");
+                }
+                else{
+                    alertObservers("Make a move!");
+                }
             }
 
         }
         else{
             if(row > currentConfig.getRow() || col > currentConfig.getCol() || row < 0 || col < 0){
-                alertObservers("Invalid selection. Please select a new coordinate");
+                alertObservers("Invalid selection. Please select a new frog");
             }
             else if(!(currentConfig.getBoard()[row][col] == currentConfig.getGREEN_FROG() || currentConfig.getBoard()[row][col] == currentConfig.getRED_FROG())){
-                alertObservers("Invalid selection. Please select a new coordinate");
+                alertObservers("Invalid selection. Please select a new frog");
             }
             else{
                 startR = row;

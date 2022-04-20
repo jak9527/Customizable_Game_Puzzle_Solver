@@ -65,8 +65,8 @@ public abstract class ConsoleApplication {
 
     private static final String[] NO_ARGS = new String[ 0 ];
 
-    public static final String HELP = "h";
-    public static final String QUIT = "q";
+    public static final String HELP = "help";
+    public static final String QUIT = "quit";
 
     /**
      * An automatically added action that prints the list of actions
