@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 
 // TODO: implement your JamConfig for the common solver
 
@@ -36,25 +37,79 @@ public class JamConfig implements Configuration{
     @Override
     public Collection<Configuration> getNeighbors() {
         ArrayList<Configuration> neighbors = new ArrayList<>();
-        for (JamCar car:carMap.values()){
+        HashSet<JamCar> cars = new HashSet<>();
+        cars.addAll(carMap.values());
+        for (JamCar car:cars){
             int carEndCoordCol = car.getEndCoord().col();
             int carEndCoordRow = car.getEndCoord().row();
             int carStartCoordCol = car.getStartCoord().col();
             int carStartCoordRow = car.getStartCoord().row();
             if (!car.isHorizontal()) {
-                neighbors.add(new JamCar(car.getCarLtr(),
-                        new Coordinates(carStartCoordRow + 1, carStartCoordCol),
-                        new Coordinates(carEndCoordRow + 1, carEndCoordCol)));
-                neighbors.add(new JamCar(car.getCarLtr(),
-                        new Coordinates(carStartCoordRow - 1, carStartCoordCol),
-                        new Coordinates(carEndCoordRow - 1, carEndCoordCol)));
+                if (!carMap.containsKey(new Coordinates(carEndCoordRow + 1, carEndCoordCol))) {
+                    HashMap<Coordinates, JamCar> newCarMap = (HashMap<Coordinates, JamCar>) carMap.clone();
+                    newCarMap.remove(car.getStartCoord());
+                    JamCar currentCar = new JamCar(car.getCarLtr(),
+                            new Coordinates(carStartCoordRow + 1, carStartCoordCol),
+                            new Coordinates(carEndCoordRow + 1, carEndCoordCol));
+                    newCarMap.put(new Coordinates(carEndCoordRow + 1, carEndCoordCol), currentCar);
+                    for (int i = carEndCoordRow; i > carStartCoordRow; i--){
+                        newCarMap.replace(new Coordinates(i, carStartCoordCol), currentCar);
+                    }
+                    if (currentCar.getCarLtr() == 'X'){
+                        neighbors.add(new JamConfig(newCarMap, currentCar));
+                    } else {
+                        neighbors.add(new JamConfig(newCarMap, goalCar));
+                    }
+                }
+                if (!carMap.containsKey(new Coordinates(carStartCoordRow - 1, carStartCoordCol))) {
+                    HashMap<Coordinates, JamCar> newCarMap = (HashMap<Coordinates, JamCar>) carMap.clone();
+                    newCarMap.remove(car.getStartCoord());
+                    JamCar currentCar = new JamCar(car.getCarLtr(),
+                            new Coordinates(carStartCoordRow + 1, carStartCoordCol),
+                            new Coordinates(carEndCoordRow + 1, carEndCoordCol));
+                    newCarMap.put(new Coordinates(carEndCoordRow + 1, carEndCoordCol), currentCar);
+                    for (int i = carEndCoordRow; i > carStartCoordRow; i--){
+                        newCarMap.replace(new Coordinates(i, carStartCoordCol), currentCar);
+                    }
+                    if (currentCar.getCarLtr() == 'X'){
+                        neighbors.add(new JamConfig(newCarMap, currentCar));
+                    } else {
+                        neighbors.add(new JamConfig(newCarMap, goalCar));
+                    }
+                }
             } else {
-                neighbors.add(new JamCar(car.getCarLtr(),
-                        new Coordinates(carStartCoordRow, carStartCoordCol + 1),
-                        new Coordinates(carEndCoordRow, carEndCoordCol + 1)));
-                neighbors.add(new JamCar(car.getCarLtr(),
-                        new Coordinates(carStartCoordRow, carStartCoordCol - 1),
-                        new Coordinates(carEndCoordRow, carEndCoordCol - 1)));
+                    if (!carMap.containsKey(new Coordinates(carEndCoordRow, carEndCoordCol + 1))) {
+                        HashMap<Coordinates, JamCar> newCarMap = (HashMap<Coordinates, JamCar>) carMap.clone();
+                        newCarMap.remove(car.getStartCoord());
+                        JamCar currentCar = new JamCar(car.getCarLtr(),
+                                new Coordinates(carStartCoordRow + 1, carStartCoordCol),
+                                new Coordinates(carEndCoordRow + 1, carEndCoordCol));
+                        newCarMap.put(new Coordinates(carEndCoordRow + 1, carEndCoordCol), currentCar);
+                        for (int i = carEndCoordRow; i > carStartCoordRow; i--){
+                            newCarMap.replace(new Coordinates(i, carStartCoordCol), currentCar);
+                        }
+                        if (currentCar.getCarLtr() == 'X'){
+                            neighbors.add(new JamConfig(newCarMap, currentCar));
+                        } else {
+                            neighbors.add(new JamConfig(newCarMap, goalCar));
+                        }
+                    }
+                if (!carMap.containsKey(new Coordinates(carStartCoordRow, carStartCoordCol - 1))) {
+                    HashMap<Coordinates, JamCar> newCarMap = (HashMap<Coordinates, JamCar>) carMap.clone();
+                    newCarMap.remove(car.getStartCoord());
+                    JamCar currentCar = new JamCar(car.getCarLtr(),
+                            new Coordinates(carStartCoordRow + 1, carStartCoordCol),
+                            new Coordinates(carEndCoordRow + 1, carEndCoordCol));
+                    newCarMap.put(new Coordinates(carEndCoordRow + 1, carEndCoordCol), currentCar);
+                    for (int i = carEndCoordRow; i > carStartCoordRow; i--){
+                        newCarMap.replace(new Coordinates(i, carStartCoordCol), currentCar);
+                    }
+                    if (currentCar.getCarLtr() == 'X'){
+                        neighbors.add(new JamConfig(newCarMap, currentCar));
+                    } else {
+                        neighbors.add(new JamConfig(newCarMap, goalCar));
+                    }
+                }
             }
 
         }
