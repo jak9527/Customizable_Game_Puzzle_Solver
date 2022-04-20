@@ -22,6 +22,8 @@ public class HoppersModel {
     /** the current configuration */
     private HoppersConfig currentConfig;
 
+    private String puzzleName;
+
     /**
      * The view calls this to add itself as an observer.
      *
@@ -56,11 +58,23 @@ public class HoppersModel {
 
     public HoppersModel(String filename) {
         try {
+            this.puzzleName = filename;
             this.currentConfig = new HoppersConfig(filename);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
+    public void newGame(String filename){
+        this.puzzleName = filename;
+        newGameUtil();
+    }
 
+    private void newGameUtil(){
+
+    }
+
+    public HoppersConfig getCurrentConfig(){
+        return currentConfig;
+    }
 }

@@ -188,6 +188,14 @@ public class HoppersConfig implements Configuration{
         return board;
     }
 
+    public int getRow(){
+        return row;
+    }
+
+    public int getCol(){
+        return col;
+    }
+
     /**
      * get a string representation of the current config
      * @return the string representation

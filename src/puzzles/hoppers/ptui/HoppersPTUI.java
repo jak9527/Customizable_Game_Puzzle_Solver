@@ -68,6 +68,10 @@ public class HoppersPTUI extends ConsoleApplication implements Observer<HoppersM
 
     @Override
     public void update(HoppersModel model, String msg) {
+        if(!(this.initialized)) return; //too soon, no PTUI
+        this.out.println(msg);
+        this.out.println(this.getCurrentStep());
+
     }
 
     public static void main(String[] args) {
@@ -78,6 +82,40 @@ public class HoppersPTUI extends ConsoleApplication implements Observer<HoppersM
 
     @Override
     public void start(PrintWriter console) throws Exception {
+        this.out = console;
+        this.initialized = true;
+        super.setOnCommand( "s", 2, "<Move>: Select a coordinate",
+                args -> this.model.selectFrog( args[ 2 ] )
+        );
+        super.setOnCommand( "h", 0, ": show the next step",
+                args -> this.hint()
+        );
+        super.setOnCommand("l", 1, "<file name>: make a new game",
+                args -> this.newGame( args[ 0 ] )
+        );
+        super.setOnCommand("r", 0, ": reset the current puzzle",
+                args -> this.reset()
+        );
+    }
 
+    public String getCurrentStep(){
+        String result = "   ";
+        String config = model.getCurrentConfig().toString();
+        for(int i = 0; i < model.getCurrentConfig().getCol(); i++){
+            result += " " + i;
+        }
+        result += "\n  ";
+        for(int i = 0; i < model.getCurrentConfig().getCol(); i++){
+            result += "--";
+        }
+        result += "\n";
+        for(int i = 0; i < model.getCurrentConfig().getRow(); i++){
+            result += i + "|";
+            for(int j = 0; j < model.getCurrentConfig().getCol(); j++){
+                result += config.substring(j,j+2);
+            }
+            result += "\n";
+        }
+        return result;
     }
 }
