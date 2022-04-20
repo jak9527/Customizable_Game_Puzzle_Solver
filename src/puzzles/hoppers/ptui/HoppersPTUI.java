@@ -71,7 +71,6 @@ public class HoppersPTUI extends ConsoleApplication implements Observer<HoppersM
         if(!(this.initialized)) return; //too soon, no PTUI
         this.out.println(msg);
         this.out.println(this.getCurrentStep());
-
     }
 
     public static void main(String[] args) {
