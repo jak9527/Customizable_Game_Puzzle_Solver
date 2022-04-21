@@ -26,7 +26,7 @@ public class JamCar {
     }
 
     public boolean isSolved(){
-        return (endCoord.col() == JamConfig.columns);
+        return (endCoord.col() == JamConfig.columns - 1);
 
     }
 

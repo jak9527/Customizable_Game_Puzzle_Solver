@@ -32,6 +32,7 @@ public class Solver {
         Map<Configuration, Configuration> predecessors = new HashMap<>();
         // put the starting node in, and just assign itself as predecessor
         predecessors.put(startConfig, startConfig);
+        uniqueConfigs += 1;
 
         // loop until either the finish node is found, or the queue is empty
         // (no path)
