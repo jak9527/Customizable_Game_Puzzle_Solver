@@ -154,20 +154,20 @@ public class HoppersModel {
                 }
                 else{
                     if(endR < startR){
-                        jumpedR = endR-2;
+                        jumpedR = endR+2;
                         jumpedC = endC;
                     }
                     else if(endR > startR){
-                        jumpedR = endR+2;
+                        jumpedR = endR-2;
                         jumpedC = endC;
                     }
                     else if(endC < startC){
                         jumpedR = endR;
-                        jumpedC = endC - 2;
+                        jumpedC = endC + 2;
                     }
                     else if(endC > startC){
                         jumpedR = endR;
-                        jumpedC = endC+2;
+                        jumpedC = endC-2;
                     }
                 }
                 currentConfig = new HoppersConfig(startR, startC, endR, endC, jumpedR, jumpedC, currentConfig);

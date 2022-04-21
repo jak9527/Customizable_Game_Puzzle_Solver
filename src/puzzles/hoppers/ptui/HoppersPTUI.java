@@ -75,10 +75,10 @@ public class HoppersPTUI extends ConsoleApplication implements Observer<HoppersM
         super.setOnCommand( "h", 0, ": show the next step",
                 args -> this.hint()
         );
-        super.setOnCommand("l", 1, "<file name>: make a new game",
+        super.setOnCommand("load", 1, "<file name>: make a new game",
                 args -> this.newGame( args[ 0 ] )
         );
-        super.setOnCommand("r", 0, ": reset the current puzzle",
+        super.setOnCommand("reset", 0, ": reset the current puzzle",
                 args -> this.reset()
         );
         this.out.println("Make a move!");
@@ -86,11 +86,11 @@ public class HoppersPTUI extends ConsoleApplication implements Observer<HoppersM
     }
 
     public void hint(){
-        this.out.println("Please wait, loading");
         this.model.hint();
     }
 
     public void newGame(String filename){
+        this.out.println("Please wait, loading: " + filename);
         this.model.newGame(filename);
     }
 
