@@ -100,7 +100,6 @@ public class HoppersPTUI extends ConsoleApplication implements Observer<HoppersM
 
     public String getCurrentStep(){
         String result = "  ";
-        String config = model.getCurrentConfig().toString();
         for(int i = 0; i < model.getCurrentConfig().getCol(); i++){
             result += " " + i;
         }
@@ -111,9 +110,6 @@ public class HoppersPTUI extends ConsoleApplication implements Observer<HoppersM
         result += "\n";
         for(int i = 0; i < model.getCurrentConfig().getRow(); i++){
             result += i + "|";
-//            for(int j = 0; j < model.getCurrentConfig().getCol(); j++){
-//                result += config.substring(j,j+2);
-//            }
             result += model.getCurrentConfig().rowToString(i);
             result += "\n";
         }
