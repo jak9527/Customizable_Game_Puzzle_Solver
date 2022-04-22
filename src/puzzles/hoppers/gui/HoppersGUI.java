@@ -12,16 +12,24 @@ import javafx.stage.Stage;
 public class HoppersGUI extends Application implements Observer<HoppersModel, String> {
     /** The resources directory is located directly underneath the gui package */
     private final static String RESOURCES_DIR = "resources/";
+    private HoppersModel model;
+    private boolean initDone;
+
 
     // for demonstration purposes
     private Image redFrog = new Image(getClass().getResourceAsStream(RESOURCES_DIR+"red_frog.png"));
 
     public void init() {
+        initDone = false;
         String filename = getParameters().getRaw().get(0);
+        this.model = new HoppersModel(filename);
+        this.model.addObserver(this);
+        this.model.newGame(filename);
     }
 
     @Override
     public void start(Stage stage) throws Exception {
+        this.initDone = true;
         Button button = new Button();
         button.setGraphic(new ImageView(redFrog));
         Scene scene = new Scene(button);
