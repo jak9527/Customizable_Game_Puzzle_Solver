@@ -191,10 +191,18 @@ public class HoppersConfig implements Configuration{
         return board;
     }
 
+    /**
+     * What is the row dimension
+     * @return the row dimension
+     */
     public int getRow(){
         return row;
     }
 
+    /**
+     * What is the column dimension
+     * @return the col dimension
+     */
     public int getCol(){
         return col;
     }
@@ -220,18 +228,35 @@ public class HoppersConfig implements Configuration{
         return result;
     }
 
+    /**
+     * Return the green frog character
+     * @return the green frog character
+     */
     public char getGREEN_FROG(){
         return GREEN_FROG;
     }
 
+    /**
+     * Return the red frog character
+     * @return the red frog character
+     */
     public char getRED_FROG(){
         return RED_FROG;
     }
 
+    /**
+     * Return the empty space character
+     * @return the empty space character
+     */
     public char getEMPTY(){
         return EMPTY;
     }
 
+    /**
+     * Return the string representation of the current row
+     * @param row the row needed
+     * @return the string
+     */
     public String rowToString(int row){
         String result = "";
         for(int i = 0; i<col; i++){
@@ -241,6 +266,10 @@ public class HoppersConfig implements Configuration{
         return result;
     }
 
+    /**
+     * Does this board have a red frog
+     * @return if it does
+     */
     public boolean containsRed(){
         boolean red = false;
         for(int r = 0; r < row; r++){

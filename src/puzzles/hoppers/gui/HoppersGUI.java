@@ -22,27 +22,40 @@ import javafx.stage.Stage;
 
 import java.io.File;
 
+/**
+ * The GUI representation of the Hoppers puzzle
+ * @author Jacob Karvelis
+ */
 public class HoppersGUI extends Application implements Observer<HoppersModel, String> {
     /** The resources directory is located directly underneath the gui package */
     private final static String RESOURCES_DIR = "resources/";
+    /** The model to use in the GUI */
     private HoppersModel model;
+    /** Is the init done? */
     private boolean initDone;
+    /** Access to board elements for updating */
     private GridPane board;
     private Scene scene;
     private BorderPane borderPane = new BorderPane();
     private GridPane topLabels = new GridPane();
     private HBox bottomButtons = new HBox();
     private Stage stage;
+
+    /** The current puzzle file */
     private String curFile;
+    /** Is this puzzle the initial? */
     private boolean initialPuzzle = true;
 
-    // for demonstration purposes
+    /** The images to use in the game along with their size */
     private final Image redFrog = new Image(getClass().getResourceAsStream(RESOURCES_DIR+"red_frog.png"));
     private final Image greenFrog = new Image(getClass().getResourceAsStream(RESOURCES_DIR+"green_frog.png"));
     private final Image water = new Image(getClass().getResourceAsStream(RESOURCES_DIR+"water.png"));
     private final Image lilyPad = new Image(getClass().getResourceAsStream(RESOURCES_DIR+"lily_pad.png"));
     private final int ICON_SIZE = 75;
 
+    /**
+     * Initialize the application
+     */
     public void init() {
         initDone = false;
         String filename = getParameters().getRaw().get(0);
@@ -52,6 +65,11 @@ public class HoppersGUI extends Application implements Observer<HoppersModel, St
         this.model.newGame(filename);
     }
 
+    /**
+     * Start the gui
+     * @param stage stage to use
+     * @throws Exception catch any file errors
+     */
     @Override
     public void start(Stage stage) throws Exception {
         this.initDone = true;
@@ -100,6 +118,11 @@ public class HoppersGUI extends Application implements Observer<HoppersModel, St
 
     }
 
+    /**
+     * Update the view
+     * @param hoppersModel the model to update from
+     * @param msg the msg to update with
+     */
     @Override
     public void update(HoppersModel hoppersModel, String msg) {
         if(!this.initDone){
@@ -114,10 +137,11 @@ public class HoppersGUI extends Application implements Observer<HoppersModel, St
         if(!initialPuzzle){
             tmp.setText(curFile.substring(curFile.lastIndexOf(File.separator)+1));
         }
-
-
     }
 
+    /**
+     * The frog piece representation
+     */
     public class FrogButton extends Button{
         public int row;
         public int col;
@@ -128,6 +152,11 @@ public class HoppersGUI extends Application implements Observer<HoppersModel, St
         }
     }
 
+    /**
+     * Build the current config visually based on the board
+     * @param config the config to represent
+     * @return the gridpane holding it
+     */
     public GridPane buildBoard(HoppersConfig config){
         GridPane board = new GridPane();
         for(int r = 0; r<config.getRow(); r++){
@@ -160,6 +189,7 @@ public class HoppersGUI extends Application implements Observer<HoppersModel, St
         }
         return board;
     }
+
 
     public static void main(String[] args) {
         if (args.length != 1) {
