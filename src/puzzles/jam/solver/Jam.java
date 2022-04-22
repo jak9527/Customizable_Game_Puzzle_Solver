@@ -26,7 +26,7 @@ public class Jam {
                     System.out.println("No solution");
                 } else {
                     for (Configuration config : jamPath) {
-                        System.out.println("Step " + i + ": " + config.toString());
+                        System.out.println("Step " + i + ": \n" + config.toString());
                         i++;
                     }
                 }
