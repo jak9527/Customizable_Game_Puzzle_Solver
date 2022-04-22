@@ -24,7 +24,7 @@ public class Crossing {
             int i = 0;
             System.out.println("Total configs: " + jacobCringe.getTotalConfigs());
             System.out.println("Unique configs: " + jacobCringe.getUniqueConfigs());
-            if (path == null){
+            if (path == null || path.size() == 0){
                 System.out.println("No solution");
             } else {
                 for (Configuration config : path) {

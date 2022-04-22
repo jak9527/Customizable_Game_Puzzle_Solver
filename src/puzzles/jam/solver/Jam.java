@@ -22,7 +22,7 @@ public class Jam {
                 System.out.println("Total configs: " + jamSolver.getTotalConfigs());
                 System.out.println("Unique configs: " + jamSolver.getUniqueConfigs());
                 int i = 0;
-                if (jamPath == null){
+                if (jamPath == null || jamPath.size() == 0){
                     System.out.println("No solution");
                 } else {
                     for (Configuration config : jamPath) {

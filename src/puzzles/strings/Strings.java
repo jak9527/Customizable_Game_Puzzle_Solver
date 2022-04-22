@@ -25,7 +25,7 @@ public class Strings {
             System.out.println("Total configs: " + jacobCringe.getTotalConfigs());
             System.out.println("Unique configs: " + jacobCringe.getUniqueConfigs());
             int i = 0;
-            if (path == null){
+            if (path == null || path.size() == 0){
                 System.out.println("No solution");
             } else {
                 for (Configuration config : path) {
