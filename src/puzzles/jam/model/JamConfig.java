@@ -67,7 +67,7 @@ public class JamConfig implements Configuration{
             int carStartCoordRow = car.getStartCoord().row();
             if (!car.isHorizontal()) {
                 if (!carMap.containsKey(new Coordinates(carEndCoordRow + 1, carEndCoordCol))
-                        && (carEndCoordRow + 1) <= rows) {
+                        && (carEndCoordRow + 1) < rows) {
                     HashMap<Coordinates, JamCar> newCarMap = (HashMap<Coordinates, JamCar>) carMap.clone();
                     newCarMap.remove(car.getStartCoord());
                     JamCar currentCar = new JamCar(car.getCarLtr(),
@@ -84,7 +84,7 @@ public class JamConfig implements Configuration{
                     }
                 }
                 if (!carMap.containsKey(new Coordinates(carStartCoordRow - 1, carStartCoordCol))
-                        && (carStartCoordRow - 1) >= rows) {
+                        && (carStartCoordRow - 1) >= 0) {
                     HashMap<Coordinates, JamCar> newCarMap = (HashMap<Coordinates, JamCar>) carMap.clone();
                     newCarMap.remove(car.getEndCoord());
                     JamCar currentCar = new JamCar(car.getCarLtr(),
@@ -102,7 +102,7 @@ public class JamConfig implements Configuration{
                 }
             } else {
                     if (!carMap.containsKey(new Coordinates(carEndCoordRow, carEndCoordCol + 1))
-                            && (carEndCoordCol + 1 <= columns)) {
+                            && (carEndCoordCol + 1 < columns)) {
                         HashMap<Coordinates, JamCar> newCarMap = (HashMap<Coordinates, JamCar>) carMap.clone();
                         newCarMap.remove(car.getStartCoord());
                         JamCar currentCar = new JamCar(car.getCarLtr(),
@@ -119,13 +119,13 @@ public class JamConfig implements Configuration{
                         }
                     }
                 if (!carMap.containsKey(new Coordinates(carStartCoordRow, carStartCoordCol - 1))
-                        && (carStartCoordCol - 1 >= columns)) {
+                        && (carStartCoordCol - 1 >= 0)) {
                     HashMap<Coordinates, JamCar> newCarMap = (HashMap<Coordinates, JamCar>) carMap.clone();
-                    newCarMap.remove(car.getStartCoord());
+                    newCarMap.remove(car.getEndCoord());
                     JamCar currentCar = new JamCar(car.getCarLtr(),
                             new Coordinates(carStartCoordRow, carStartCoordCol - 1),
                             new Coordinates(carEndCoordRow, carEndCoordCol - 1));
-                    newCarMap.put(new Coordinates(carEndCoordRow, carEndCoordCol - 1), currentCar);
+                    newCarMap.put(new Coordinates(carEndCoordRow, carStartCoordCol - 1), currentCar);
                     for (int i = carStartCoordCol; i < carEndCoordCol; i++){
                         newCarMap.replace(new Coordinates(carStartCoordRow, i), currentCar);
                     }
