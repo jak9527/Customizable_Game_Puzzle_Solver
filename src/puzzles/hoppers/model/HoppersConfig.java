@@ -104,42 +104,45 @@ public class HoppersConfig implements Configuration{
     public Collection<Configuration> getNeighbors() {
         ArrayList<Configuration> neighbors = new ArrayList<>();
         for(Frog f : frogPos){
-            try{//Check Left neighbor
-                if(board[f.getRow()][f.getCol()-2] == GREEN_FROG){
-                    if(!(board[f.getRow()][f.getCol()-4] == GREEN_FROG || board[f.getRow()][f.getCol()-4]== RED_FROG)){
-                        neighbors.add(new HoppersConfig(f.getRow(),f.getCol(),f.getRow(),f.getCol()-4,f.getRow(),f.getCol()-2,this));
+            if(f.getRow()%2==0){
+                try{//Check Left neighbor
+                    if(board[f.getRow()][f.getCol()-2] == GREEN_FROG){
+                        if(!(board[f.getRow()][f.getCol()-4] == GREEN_FROG || board[f.getRow()][f.getCol()-4]== RED_FROG)){
+                            neighbors.add(new HoppersConfig(f.getRow(),f.getCol(),f.getRow(),f.getCol()-4,f.getRow(),f.getCol()-2,this));
+                        }
                     }
                 }
-            }
-            catch (IndexOutOfBoundsException ignored){
-            }
-            try{//Check Right neighbor
-                if(board[f.getRow()][f.getCol()+2] == GREEN_FROG){
-                    if(!(board[f.getRow()][f.getCol()+4] == GREEN_FROG || board[f.getRow()][f.getCol()+4]== RED_FROG)){
-                        neighbors.add(new HoppersConfig(f.getRow(),f.getCol(),f.getRow(),f.getCol()+4,f.getRow(),f.getCol()+2,this));
+                catch (IndexOutOfBoundsException ignored){
+                }
+                try{//Check Right neighbor
+                    if(board[f.getRow()][f.getCol()+2] == GREEN_FROG){
+                        if(!(board[f.getRow()][f.getCol()+4] == GREEN_FROG || board[f.getRow()][f.getCol()+4]== RED_FROG)){
+                            neighbors.add(new HoppersConfig(f.getRow(),f.getCol(),f.getRow(),f.getCol()+4,f.getRow(),f.getCol()+2,this));
+                        }
                     }
                 }
-            }
-            catch (IndexOutOfBoundsException ignored){
-            }
-            try{//Check Top neighbor
-                if(board[f.getRow()-2][f.getCol()] == GREEN_FROG){
-                    if(!(board[f.getRow()-4][f.getCol()] == GREEN_FROG || board[f.getRow()-4][f.getCol()]== RED_FROG)){
-                        neighbors.add(new HoppersConfig(f.getRow(),f.getCol(),f.getRow()-4,f.getCol(),f.getRow()-2,f.getCol(),this));
+                catch (IndexOutOfBoundsException ignored){
+                }
+                try{//Check Top neighbor
+                    if(board[f.getRow()-2][f.getCol()] == GREEN_FROG){
+                        if(!(board[f.getRow()-4][f.getCol()] == GREEN_FROG || board[f.getRow()-4][f.getCol()]== RED_FROG)){
+                            neighbors.add(new HoppersConfig(f.getRow(),f.getCol(),f.getRow()-4,f.getCol(),f.getRow()-2,f.getCol(),this));
+                        }
                     }
                 }
-            }
-            catch (IndexOutOfBoundsException ignored){
-            }
-            try{//Check Bottom neighbor
-                if(board[f.getRow()+2][f.getCol()] == GREEN_FROG){
-                    if(!(board[f.getRow()+4][f.getCol()] == GREEN_FROG || board[f.getRow()+4][f.getCol()]== RED_FROG)){
-                        neighbors.add(new HoppersConfig(f.getRow(),f.getCol(),f.getRow()+4,f.getCol(),f.getRow()+2,f.getCol(),this));
+                catch (IndexOutOfBoundsException ignored){
+                }
+                try{//Check Bottom neighbor
+                    if(board[f.getRow()+2][f.getCol()] == GREEN_FROG){
+                        if(!(board[f.getRow()+4][f.getCol()] == GREEN_FROG || board[f.getRow()+4][f.getCol()]== RED_FROG)){
+                            neighbors.add(new HoppersConfig(f.getRow(),f.getCol(),f.getRow()+4,f.getCol(),f.getRow()+2,f.getCol(),this));
+                        }
                     }
                 }
+                catch (IndexOutOfBoundsException ignored){
+                }
             }
-            catch (IndexOutOfBoundsException ignored){
-            }
+
             try{//Check Left Top neighbor
                 if(board[f.getRow()-1][f.getCol()-1] == GREEN_FROG){
                     if(!(board[f.getRow()-2][f.getCol()-2] == GREEN_FROG || board[f.getRow()-2][f.getCol()-2]== RED_FROG)){
@@ -236,6 +239,18 @@ public class HoppersConfig implements Configuration{
             result += board[row][i];
         }
         return result;
+    }
+
+    public boolean containsRed(){
+        boolean red = false;
+        for(int r = 0; r < row; r++){
+            for(int c = 0; c<col; c++){
+                if(board[r][c]==RED_FROG){
+                    red = true;
+                }
+            }
+        }
+        return red;
     }
 
     /**
