@@ -22,7 +22,7 @@ public class Hoppers {
             System.out.println("Total configs: " + solver.getTotalConfigs());
             System.out.println("Unique configs: " + solver.getUniqueConfigs());
 
-            if(path == null){
+            if(path.size() == 0){
                 System.out.println("No solution");
             }
             else{

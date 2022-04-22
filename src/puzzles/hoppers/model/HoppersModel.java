@@ -91,13 +91,22 @@ public class HoppersModel {
     public void hint(){
         Collection<Configuration> path = solver.findPath(currentConfig);
         ArrayList<Configuration> pathList = new ArrayList<>(path);
-        currentConfig = (HoppersConfig) pathList.get(1);
-        if(currentConfig.isSolution()){
+        if(pathList.size()<2 && !currentConfig.isSolution()) {
+            alertObservers("No solution");
+        }
+        else if(currentConfig.isSolution()){
             alertObservers("You Won!");
         }
         else{
-            alertObservers("Here is the next move, now make a guess");
+            currentConfig = (HoppersConfig) pathList.get(1);
+            if(currentConfig.isSolution()){
+                alertObservers("You Won!");
+            }
+            else{
+                alertObservers("Here is the next move!");
+            }
         }
+
     }
 
     public void reset(){
@@ -121,13 +130,13 @@ public class HoppersModel {
             endR = row;
             endC = col;
             if(row > currentConfig.getRow() || col > currentConfig.getCol() || row < 0 || col < 0 ||
-                    !(Math.abs(endR-startR)==2 || Math.abs(endR-startR)==4)){
+                    !(Math.abs(endR-startR)==2 || Math.abs(endR-startR)==4 || endR-startR==0)){
                 frogSelected = false;
-                alertObservers("Outside of movable area. Please select a new frog");
+                alertObservers("(" + endR + ", " + endC + ")" +" Outside of movable area");
             }
             else if(!(currentConfig.getBoard()[row][col] == currentConfig.getEMPTY())){
                 frogSelected = false;
-                alertObservers("No Space to jump! Please select a new frog");
+                alertObservers("No Space to jump at " + "(" + endR + ", " + endC + ")" + "!");
             }
             else{
                 frogSelected = false;
@@ -137,8 +146,12 @@ public class HoppersModel {
                         if(endC > startC){
                             jumpedC = endC-1;
                         }
-                        else{
+                        else if(endC < startC){
                             jumpedC = endC+1;
+                        }
+                        else{
+                            alertObservers("(" + endR + ", " + endC + ")" +" Outside of movable area");
+                            return;
                         }
 
                     }
@@ -153,45 +166,65 @@ public class HoppersModel {
                     }
                 }
                 else{
-                    if(endR < startR){
-                        jumpedR = endR+2;
-                        jumpedC = endC;
+                    if(endR==startR && Math.abs(endC-startC)!=4){
+                        alertObservers("(" + endR + ", " + endC + ")" +" Outside of movable area");
+                        return;
                     }
-                    else if(endR > startR){
-                        jumpedR = endR-2;
-                        jumpedC = endC;
+                    if(startR%2==0){
+                        if(endR < startR){
+                            jumpedR = endR+2;
+                            jumpedC = endC;
+                        }
+                        else if(endR > startR){
+                            jumpedR = endR-2;
+                            jumpedC = endC;
+                        }
+                        else if(endC < startC){
+                            jumpedR = endR;
+                            jumpedC = endC + 2;
+                        }
+                        else if(endC > startC){
+                            jumpedR = endR;
+                            jumpedC = endC-2;
+                        }
                     }
-                    else if(endC < startC){
-                        jumpedR = endR;
-                        jumpedC = endC + 2;
+                    else{
+                        alertObservers("(" + endR + ", " + endC + ")" +" Outside of movable area");
+                        return;
                     }
-                    else if(endC > startC){
-                        jumpedR = endR;
-                        jumpedC = endC-2;
-                    }
+
                 }
-                currentConfig = new HoppersConfig(startR, startC, endR, endC, jumpedR, jumpedC, currentConfig);
-                if(currentConfig.isSolution()){
-                    alertObservers("You Win!");
+                if(!(currentConfig.getBoard()[jumpedR][jumpedC] == currentConfig.getEMPTY())){
+                    currentConfig = new HoppersConfig(startR, startC, endR, endC, jumpedR, jumpedC, currentConfig);
+                    if(currentConfig.isSolution()){
+                        alertObservers("You Won!");
+                    }
+                    else if(!currentConfig.containsRed()){
+                        alertObservers("Failed!");
+                        return;
+                    }
+                    else{
+                        alertObservers("Make a move!");
+                    }
                 }
                 else{
-                    alertObservers("Make a move!");
+                    alertObservers("No frog to hop at " + "(" + jumpedR + ", " + jumpedC + ")" + "!");
                 }
             }
 
         }
         else{
             if(row > currentConfig.getRow() || col > currentConfig.getCol() || row < 0 || col < 0){
-                alertObservers("Invalid selection. Please select a new frog");
+                alertObservers("Invalid selection");
             }
             else if(!(currentConfig.getBoard()[row][col] == currentConfig.getGREEN_FROG() || currentConfig.getBoard()[row][col] == currentConfig.getRED_FROG())){
-                alertObservers("Invalid selection. Please select a new frog");
+                alertObservers("Invalid selection");
             }
             else{
                 startR = row;
                 startC = col;
                 frogSelected = true;
-                alertObservers("Frog selected. Please select the point to jump to");
+                alertObservers("(" + startR + ", " + startC + ")" + " Frog selected");
             }
         }
     }
