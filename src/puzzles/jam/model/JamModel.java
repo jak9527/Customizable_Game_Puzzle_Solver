@@ -1,13 +1,14 @@
 package puzzles.jam.model;
 
+import puzzles.common.Coordinates;
 import puzzles.common.Observer;
+import puzzles.common.solver.Configuration;
 import puzzles.common.solver.Solver;
+import puzzles.hoppers.model.HoppersConfig;
 import puzzles.hoppers.model.HoppersModel;
 
-import java.util.EnumMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.io.IOException;
+import java.util.*;
 
 public class JamModel {
 
@@ -39,6 +40,8 @@ public class JamModel {
 
     private Solver solver = new Solver();
 
+    private JamCar carSelected;
+
     /**
      * The view calls this to add itself as an observer.
      *
@@ -56,5 +59,69 @@ public class JamModel {
         for (var observer : observers) {
             observer.update(this, msg);
         }
+    }
+
+
+    public JamModel(String filename) {
+        try {
+            this.puzzleName = filename;
+            this.currentConfig = new JamConfig(filename);
+            this.carSelected = null;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void newGame(String filename){
+        this.puzzleName = filename;
+        try {
+            this.currentConfig = new JamConfig(filename);
+            alertObservers("Make a guess!");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void hint(){
+        Collection<Configuration> path = solver.findPath(currentConfig);
+        ArrayList<Configuration> pathList = new ArrayList<>(path);
+        if(pathList.size() == 0) {
+            alertObservers("No solution");
+        } else{
+            currentConfig = (JamConfig) pathList.get(1);
+            if(currentConfig.isSolution()){
+                alertObservers("You Won!");
+            }
+            else{
+                alertObservers("Here is the next move!");
+            }
+        }
+
+    }
+
+    public void reset(){
+        try {
+            currentConfig = new JamConfig(this.puzzleName);
+            carSelected = null;
+            alertObservers("Make a move!");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void selectCar(Coordinates coord){
+        if (carSelected == null){
+            if (currentConfig.isCarAt(coord)){
+                carSelected = currentConfig.getCar(coord);
+            } else {
+                alertObservers("Invalid selection");
+            }
+        } else {
+
+        }
+    }
+
+    public JamConfig getCurrentConfig(){
+        return currentConfig;
     }
 }

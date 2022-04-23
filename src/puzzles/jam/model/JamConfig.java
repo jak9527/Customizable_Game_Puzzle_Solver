@@ -141,6 +141,48 @@ public class JamConfig implements Configuration{
         return neighbors;
     }
 
+    public boolean isCarAt(Coordinates coord){
+        return carMap.containsKey(coord);
+    }
+
+    public JamCar getCar(Coordinates coord){
+        return carMap.get(coord);
+    }
+
+    public JamConfig tryMove(JamCar car, Coordinates coord){
+        int carEndCoordCol = car.getEndCoord().col();
+        int carEndCoordRow = car.getEndCoord().row();
+        int carStartCoordCol = car.getStartCoord().col();
+        int carStartCoordRow = car.getStartCoord().row();
+        if (car.isHorizontal()){
+            if ((coord.row() == carStartCoordRow) && !(carMap.containsKey(coord))){
+                if (carStartCoordCol - 1 == coord.col() && carStartCoordCol > 0){
+                    HashMap<Coordinates, JamCar> newCarMap = (HashMap<Coordinates, JamCar>) carMap.clone();
+                    newCarMap.remove(car.getEndCoord());
+
+                } else if (carEndCoordCol + 1 == coord.col() && coord.col() < columns) {
+                    HashMap<Coordinates, JamCar> newCarMap = (HashMap<Coordinates, JamCar>) carMap.clone();
+                    newCarMap.remove(car.getStartCoord());
+
+                }
+            }
+        } else {
+            if ((coord.col() == carStartCoordCol) && !(carMap.containsKey(coord))){
+                if (carStartCoordRow - 1 == coord.row() && carStartCoordRow > 0){
+                    HashMap<Coordinates, JamCar> newCarMap = (HashMap<Coordinates, JamCar>) carMap.clone();
+                    newCarMap.remove(car.getEndCoord());
+
+                } else if (carEndCoordRow + 1 == coord.row() && coord.row() < rows) {
+                    HashMap<Coordinates, JamCar> newCarMap = (HashMap<Coordinates, JamCar>) carMap.clone();
+                    newCarMap.remove(car.getStartCoord());
+
+                }
+            }
+
+        }
+        return null;
+    }
+
     @Override
     public boolean isSolution() {
         return goalCar.isSolved();
