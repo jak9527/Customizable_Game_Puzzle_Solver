@@ -8,12 +8,11 @@ import puzzles.hoppers.solver.Hoppers;
 import java.io.IOException;
 import java.util.*;
 
+/**
+ * The model for the hoppers game
+ * @author Jacob Karvelis
+ */
 public class HoppersModel {
-
-    /**
-     * Possible game states
-     */
-    public enum GameState { ONGOING, WON, LOST, ILLEGAL_MOVE }
 
     /** the collection of observers of this model */
     private final List<Observer<HoppersModel, String>> observers = new LinkedList<>();
@@ -21,15 +20,19 @@ public class HoppersModel {
     /** the current configuration */
     private HoppersConfig currentConfig;
 
+    /** name of the puzzle */
     private String puzzleName;
 
+    /** Is a frog already selected? */
     private boolean frogSelected;
 
+    /** The starting coordinate of a guess and the ending coordinate of a guess */
     private int startR;
     private int startC;
     private int endR;
     private int endC;
 
+    /** Solver for this model */
     private Solver solver = new Solver();
 
     /**
@@ -52,18 +55,9 @@ public class HoppersModel {
     }
 
     /**
-     * Game's current state
+     * Make a new model given an initial file
+     * @param filename the puzzle file to load
      */
-    private GameState gameState;
-
-    private static final EnumMap< HoppersModel.GameState, String > STATE_MSGS =
-            new EnumMap<>( Map.of(
-                    HoppersModel.GameState.WON, "You won!",
-                    HoppersModel.GameState.LOST, "You lost 😥.",
-                    HoppersModel.GameState.ONGOING, "Make a guess!",
-                    HoppersModel.GameState.ILLEGAL_MOVE, "Illegal move."
-            ) );
-
     public HoppersModel(String filename) {
         try {
             this.puzzleName = filename;
@@ -74,6 +68,10 @@ public class HoppersModel {
         }
     }
 
+    /**
+     * Make a new game given a filename
+     * @param filename the puzzle file name
+     */
     public void newGame(String filename){
         this.puzzleName = filename;
         try {
@@ -83,11 +81,19 @@ public class HoppersModel {
         }
     }
 
+    /**
+     * Make a new game given a file name
+     * @param filename name of puzzle file
+     * @throws IOException catch any file errors
+     */
     private void newGameUtil(String filename) throws IOException {
         this.currentConfig = new HoppersConfig(filename);
         alertObservers("Make a guess!");
     }
 
+    /**
+     * Move the puzzle to the next move towards solving
+     */
     public void hint(){
         Collection<Configuration> path = solver.findPath(currentConfig);
         ArrayList<Configuration> pathList = new ArrayList<>(path);
@@ -109,6 +115,9 @@ public class HoppersModel {
 
     }
 
+    /**
+     * Reset the puzzle to the initial state
+     */
     public void reset(){
         try {
             currentConfig = new HoppersConfig(this.puzzleName);
@@ -123,6 +132,11 @@ public class HoppersModel {
         alertObservers("Make a move!");
     }
 
+    /**
+     * Select a frog to move. If it is the second selection, move the frog
+     * @param row selected row
+     * @param col selected column
+     */
     public void selectFrog(int row, int col){
         int jumpedR = 0;
         int jumpedC = 0;
@@ -204,7 +218,7 @@ public class HoppersModel {
                         return;
                     }
                     else{
-                        alertObservers("Make a move!");
+                        alertObservers("Hopped " + "(" + startR + ", " + startC + ")" + " to " + "(" + endR + ", " + endC + ")");
                     }
                 }
                 else{
@@ -229,6 +243,10 @@ public class HoppersModel {
         }
     }
 
+    /**
+     * return the current config of the model
+     * @return the currentConfig
+     */
     public HoppersConfig getCurrentConfig(){
         return currentConfig;
     }

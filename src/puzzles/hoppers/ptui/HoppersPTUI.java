@@ -9,6 +9,10 @@ import java.io.PrintWriter;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * The PTUI for the hoppers game
+ * @author Jacob Karvelis
+ */
 public class HoppersPTUI extends ConsoleApplication implements Observer<HoppersModel, String> {
     private HoppersModel model;
 
@@ -49,6 +53,11 @@ public class HoppersPTUI extends ConsoleApplication implements Observer<HoppersM
         }
     }
 
+    /**
+     * Update the view
+     * @param model model to update from
+     * @param msg message to use in updating
+     */
     @Override
     public void update(HoppersModel model, String msg) {
         if(!(this.initialized)) return; //too soon, no PTUI
@@ -65,6 +74,12 @@ public class HoppersPTUI extends ConsoleApplication implements Observer<HoppersM
         }
     }
 
+    /**
+     * Start the PTUI
+     * @param console Where the UI should print output. It is recommended to save
+     *                this object in a field in the subclass.
+     * @throws Exception catch any file errors
+     */
     @Override
     public void start(PrintWriter console) throws Exception {
         this.out = console;
@@ -85,19 +100,33 @@ public class HoppersPTUI extends ConsoleApplication implements Observer<HoppersM
         this.out.println(this.getCurrentStep());
     }
 
+    /**
+     * Call the model hint
+     */
     public void hint(){
         this.model.hint();
     }
 
+    /**
+     * Call the model newGame
+     * @param filename the new puzzle to open
+     */
     public void newGame(String filename){
         this.out.println("Please wait, loading: " + filename);
         this.model.newGame(filename);
     }
 
+    /**
+     * Call the model reset
+     */
     public void reset(){
         this.model.reset();
     }
 
+    /**
+     * Get a string representing the current step
+     * @return this string
+     */
     public String getCurrentStep(){
         String result = "  ";
         for(int i = 0; i < model.getCurrentConfig().getCol(); i++){
