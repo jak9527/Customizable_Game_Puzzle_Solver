@@ -26,14 +26,14 @@ public class JamModel {
     /**
      * Game's current state
      */
-    private HoppersModel.GameState gameState;
+    private JamModel.GameState gameState;
 
-    private static final EnumMap< HoppersModel.GameState, String > STATE_MSGS =
+    private static final EnumMap< JamModel.GameState, String > STATE_MSGS =
             new EnumMap<>( Map.of(
-                    HoppersModel.GameState.WON, "You won!",
-                    HoppersModel.GameState.LOST, "You lost 😥.",
-                    HoppersModel.GameState.ONGOING, "Make a guess!",
-                    HoppersModel.GameState.ILLEGAL_MOVE, "Illegal move."
+                    JamModel.GameState.WON, "You won!",
+                    JamModel.GameState.LOST, "You lost 😥.",
+                    JamModel.GameState.ONGOING, "Make a guess!",
+                    JamModel.GameState.ILLEGAL_MOVE, "Illegal move."
             ) );
 
     private String puzzleName;
@@ -117,7 +117,16 @@ public class JamModel {
                 alertObservers("Invalid selection");
             }
         } else {
-
+            JamConfig potentialConfig = currentConfig.tryMove(carSelected, coord);
+            if (potentialConfig == null){
+                alertObservers("Invalid move");
+            } else {
+                if(currentConfig.isSolution()){
+                    alertObservers("You Won!");
+                } else {
+                    alertObservers("Car " + carSelected.getCarLtr() + " moved to " + coord);
+                }
+            }
         }
     }
 

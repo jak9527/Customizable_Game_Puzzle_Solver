@@ -154,33 +154,66 @@ public class JamConfig implements Configuration{
         int carEndCoordRow = car.getEndCoord().row();
         int carStartCoordCol = car.getStartCoord().col();
         int carStartCoordRow = car.getStartCoord().row();
+        HashMap<Coordinates, JamCar> newCarMap = (HashMap<Coordinates, JamCar>) carMap.clone();
+        JamCar currentCar = null;
         if (car.isHorizontal()){
             if ((coord.row() == carStartCoordRow) && !(carMap.containsKey(coord))){
                 if (carStartCoordCol - 1 == coord.col() && carStartCoordCol > 0){
-                    HashMap<Coordinates, JamCar> newCarMap = (HashMap<Coordinates, JamCar>) carMap.clone();
                     newCarMap.remove(car.getEndCoord());
+                    currentCar = new JamCar(car.getCarLtr(),
+                            new Coordinates(carStartCoordRow, carStartCoordCol - 1),
+                            new Coordinates(carEndCoordRow, carEndCoordCol - 1));
+                    newCarMap.put(new Coordinates(carEndCoordRow, carStartCoordCol - 1), currentCar);
+                    for (int i = carStartCoordCol; i < carEndCoordCol; i++){
+                        newCarMap.replace(new Coordinates(carStartCoordRow, i), currentCar);
+                    }
 
                 } else if (carEndCoordCol + 1 == coord.col() && coord.col() < columns) {
-                    HashMap<Coordinates, JamCar> newCarMap = (HashMap<Coordinates, JamCar>) carMap.clone();
                     newCarMap.remove(car.getStartCoord());
+                    currentCar = new JamCar(car.getCarLtr(),
+                            new Coordinates(carStartCoordRow, carStartCoordCol + 1),
+                            new Coordinates(carEndCoordRow, carEndCoordCol + 1));
+                    newCarMap.put(new Coordinates(carEndCoordRow, carEndCoordCol + 1), currentCar);
+                    for (int i = carEndCoordCol; i > carStartCoordCol; i--){
+                        newCarMap.replace(new Coordinates(carStartCoordRow, i), currentCar);
+                    }
 
                 }
             }
         } else {
             if ((coord.col() == carStartCoordCol) && !(carMap.containsKey(coord))){
                 if (carStartCoordRow - 1 == coord.row() && carStartCoordRow > 0){
-                    HashMap<Coordinates, JamCar> newCarMap = (HashMap<Coordinates, JamCar>) carMap.clone();
                     newCarMap.remove(car.getEndCoord());
+                    currentCar = new JamCar(car.getCarLtr(),
+                            new Coordinates(carStartCoordRow - 1, carStartCoordCol),
+                            new Coordinates(carEndCoordRow - 1, carEndCoordCol));
+                    newCarMap.put(new Coordinates(carStartCoordRow - 1, carEndCoordCol), currentCar);
+                    for (int i = carStartCoordRow; i < carEndCoordRow; i++){
+                        newCarMap.replace(new Coordinates(i, carStartCoordCol), currentCar);
+                    }
 
                 } else if (carEndCoordRow + 1 == coord.row() && coord.row() < rows) {
-                    HashMap<Coordinates, JamCar> newCarMap = (HashMap<Coordinates, JamCar>) carMap.clone();
                     newCarMap.remove(car.getStartCoord());
+                    currentCar = new JamCar(car.getCarLtr(),
+                            new Coordinates(carStartCoordRow + 1, carStartCoordCol),
+                            new Coordinates(carEndCoordRow + 1, carEndCoordCol));
+                    newCarMap.put(new Coordinates(carEndCoordRow + 1, carEndCoordCol), currentCar);
+                    for (int i = carEndCoordRow; i > carStartCoordRow; i--){
+                        newCarMap.replace(new Coordinates(i, carStartCoordCol), currentCar);
+                    }
 
                 }
             }
 
         }
-        return null;
+        if (currentCar == null){
+            return null;
+        } else if (currentCar.getCarLtr() == 'X'){
+            return new JamConfig(newCarMap, currentCar);
+        } else {
+            return new JamConfig(newCarMap, goalCar);
+        }
+
     }
 
     @Override
