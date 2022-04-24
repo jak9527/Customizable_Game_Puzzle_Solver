@@ -98,6 +98,7 @@ public class HoppersPTUI extends ConsoleApplication implements Observer<HoppersM
         );
         this.out.println("Make a move!");
         this.out.println(this.getCurrentStep());
+        super.help(new String[0]);
     }
 
     /**
