@@ -7,6 +7,7 @@ import puzzles.common.solver.Solver;
 import puzzles.hoppers.model.HoppersConfig;
 import puzzles.hoppers.model.HoppersModel;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
@@ -59,7 +60,7 @@ public class JamModel {
         this.puzzleName = filename;
         try {
             this.currentConfig = new JamConfig(filename);
-            alertObservers("Loaded: " + filename);
+            alertObservers("Loaded: " + filename.substring(filename.lastIndexOf(File.separator)+1));
         } catch (IOException e) {
             e.printStackTrace();
         }
