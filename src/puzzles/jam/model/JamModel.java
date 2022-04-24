@@ -18,23 +18,6 @@ public class JamModel {
     /** the current configuration */
     private JamConfig currentConfig;
 
-    /**
-     * Possible game states
-     */
-    public enum GameState { ONGOING, WON, LOST, ILLEGAL_MOVE }
-
-    /**
-     * Game's current state
-     */
-    private JamModel.GameState gameState;
-
-    private static final EnumMap< JamModel.GameState, String > STATE_MSGS =
-            new EnumMap<>( Map.of(
-                    JamModel.GameState.WON, "You won!",
-                    JamModel.GameState.LOST, "You lost 😥.",
-                    JamModel.GameState.ONGOING, "Make a guess!",
-                    JamModel.GameState.ILLEGAL_MOVE, "Illegal move."
-            ) );
 
     private String puzzleName;
 
@@ -103,7 +86,7 @@ public class JamModel {
         try {
             currentConfig = new JamConfig(this.puzzleName);
             carSelected = null;
-            alertObservers("Make a move!");
+            alertObservers("Reset puzzle");
         } catch (IOException e) {
             e.printStackTrace();
         }
