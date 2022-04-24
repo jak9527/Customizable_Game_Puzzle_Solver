@@ -70,7 +70,9 @@ public class JamModel {
         ArrayList<Configuration> pathList = new ArrayList<>(path);
         if(pathList.size() == 0) {
             alertObservers("No solution");
-        } else{
+        } else if (pathList.size() == 1) {
+            alertObservers("You already won!");
+        } else {
             currentConfig = (JamConfig) pathList.get(1);
             if(currentConfig.isSolution()){
                 alertObservers("You Won!");
@@ -78,6 +80,7 @@ public class JamModel {
             else{
                 alertObservers("Here is the next move!");
             }
+
         }
 
     }

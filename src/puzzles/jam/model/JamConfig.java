@@ -149,11 +149,11 @@ public class JamConfig implements Configuration{
         return carMap.get(coord);
     }
 
-    public static int getRows() {
+    public  int getRows() {
         return rows;
     }
 
-    public static int getColumns() {
+    public  int getColumns() {
         return columns;
     }
 
