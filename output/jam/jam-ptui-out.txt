@@ -15,7 +15,7 @@ q(uit)              -- quit the game
 r(eset)             -- reset the current game
 > l sdfdsf
 Failed to load: sdfdsf
-   0 1 2 3 4 5 
+   0 1 2 3 4 5 s
   ------------
 0| . . O . A A 
 1| . . O . . . 

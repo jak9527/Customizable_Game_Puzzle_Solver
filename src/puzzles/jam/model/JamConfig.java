@@ -149,6 +149,33 @@ public class JamConfig implements Configuration{
         return carMap.get(coord);
     }
 
+    public static int getRows() {
+        return rows;
+    }
+
+    public static int getColumns() {
+        return columns;
+    }
+
+    /**
+     * Return the string representation of the current row
+     * @param row the row needed
+     * @return the string
+     */
+    public String rowToString(int row){
+        String result = "";
+        for(int i = 0; i < columns; i++){
+            result += " ";
+            Coordinates coord = new Coordinates(row, i);
+            if (carMap.containsKey(coord)){
+                result += carMap.get(coord).getCarLtr();
+            } else {
+                result += ".";
+            }
+        }
+        return result;
+    }
+
     public JamConfig tryMove(JamCar car, Coordinates coord){
         int carEndCoordCol = car.getEndCoord().col();
         int carEndCoordRow = car.getEndCoord().row();

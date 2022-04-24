@@ -72,7 +72,7 @@ public abstract class ConsoleApplication {
      * An automatically added action that prints the list of actions
      * @param args not used
      */
-    private void help( String[] args ) {
+    protected void help( String[] args ) {
         this.out.println( "Legal commands are..." );
         for ( Entry< String, CommandInfo > legal: this.actions.entrySet() ) {
             this.out.print( '\t' + PROMPT + legal.getKey() + " " );

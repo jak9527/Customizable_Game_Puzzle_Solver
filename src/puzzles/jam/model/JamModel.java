@@ -76,7 +76,7 @@ public class JamModel {
         this.puzzleName = filename;
         try {
             this.currentConfig = new JamConfig(filename);
-            alertObservers("Make a guess!");
+            alertObservers("Loaded: " + filename);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -113,24 +113,31 @@ public class JamModel {
         if (carSelected == null){
             if (currentConfig.isCarAt(coord)){
                 carSelected = currentConfig.getCar(coord);
+                alertObservers("Selected Car " + carSelected.getCarLtr());
             } else {
                 alertObservers("Invalid selection");
             }
         } else {
             JamConfig potentialConfig = currentConfig.tryMove(carSelected, coord);
             if (potentialConfig == null){
-                alertObservers("Invalid move");
+                alertObservers("Can't move " + carSelected.getCarLtr() + " to " + coord);
             } else {
+                currentConfig = potentialConfig;
                 if(currentConfig.isSolution()){
                     alertObservers("You Won!");
                 } else {
                     alertObservers("Car " + carSelected.getCarLtr() + " moved to " + coord);
                 }
             }
+            carSelected = null;
         }
     }
 
     public JamConfig getCurrentConfig(){
         return currentConfig;
+    }
+
+    public String getPuzzleName() {
+        return puzzleName;
     }
 }
