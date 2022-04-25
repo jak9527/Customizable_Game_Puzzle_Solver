@@ -11,6 +11,13 @@ import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
+/**
+ * Class used to hold the data and methods
+ * needed to play a game of jam
+ *
+ * @author Kelly Showers kds1653
+ */
+
 public class JamModel {
 
     /** the collection of observers of this model */
@@ -19,11 +26,11 @@ public class JamModel {
     /** the current configuration */
     private JamConfig currentConfig;
 
-
+    /** holds the filename of current puzzle */
     private String puzzleName;
-
+    /** stores a solver instance to use for hints */
     private Solver solver = new Solver();
-
+    /** holds a car if one is selected */
     private JamCar carSelected;
 
     /**
@@ -45,7 +52,10 @@ public class JamModel {
         }
     }
 
-
+    /**
+     * Constructor to make a new model
+     * @param filename puzzle file to start with
+     */
     public JamModel(String filename) {
         try {
             this.puzzleName = filename;
@@ -56,6 +66,10 @@ public class JamModel {
         }
     }
 
+    /**
+     * Starts a new game of jam
+     * @param filename  the puzzle file to be used
+     */
     public void newGame(String filename){
         this.puzzleName = filename;
         try {
@@ -66,6 +80,11 @@ public class JamModel {
         }
     }
 
+    /**
+     * Checks to see if there is a solution in the
+     * game's current state and if so it advances the
+     * current puzzle one step towards the solution
+     */
     public void hint(){
         Collection<Configuration> path = solver.findPath(currentConfig);
         ArrayList<Configuration> pathList = new ArrayList<>(path);
@@ -86,6 +105,9 @@ public class JamModel {
 
     }
 
+    /**
+     * resets progress on the current puzzle
+     */
     public void reset(){
         try {
             currentConfig = new JamConfig(this.puzzleName);
@@ -96,6 +118,12 @@ public class JamModel {
         }
     }
 
+    /**
+     * if no car is selected attemps to find one at given coord
+     * otherwise attempts to move selected car to given coord
+     * if it is a valid move
+     * @param coord coordinate on the grid
+     */
     public void selectCar(Coordinates coord){
         if (carSelected == null){
             if (currentConfig.isCarAt(coord)){
@@ -120,10 +148,16 @@ public class JamModel {
         }
     }
 
+    /**
+     * @return the current config representing the puzzle
+     */
     public JamConfig getCurrentConfig(){
         return currentConfig;
     }
 
+    /**
+     * @return the filename of current puzzle
+     */
     public String getPuzzleName() {
         return puzzleName;
     }

@@ -8,18 +8,30 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
 
-// TODO: implement your JamConfig for the common solver
+/**
+ * Class that represents a given board state
+ * in a jam puzzle
+ *
+ * @author Kelly Showers kds1653
+ */
 
 public class JamConfig implements Configuration{
 
+    // dimensions of the current puzzle
     public static int rows;
     public static int columns;
 
+    //Hashmap to store what coordinates on the grid are occupied
     private HashMap<Coordinates, JamCar> carMap;
 
+    //Stores the car that needs to cross
     private JamCar goalCar;
 
 
+    /**
+     * initial constructor that makes a new board from a file
+     * @param filename file representing a puzzle
+     */
     public JamConfig(String filename) throws IOException{
         try (BufferedReader in = new BufferedReader(new FileReader(filename))){
             String[] dimensions = in.readLine().split(" ");
@@ -50,6 +62,11 @@ public class JamConfig implements Configuration{
         }
     }
 
+    /**
+     * Constructor used to update the board
+     * @param carMap stores the board
+     * @param goalCar stores the solution car
+     */
     public JamConfig(HashMap<Coordinates, JamCar> carMap, JamCar goalCar){
         this.carMap = carMap;
         this.goalCar = goalCar;
@@ -141,21 +158,19 @@ public class JamConfig implements Configuration{
         return neighbors;
     }
 
+    /** checks if car is at a coordinate */
     public boolean isCarAt(Coordinates coord){
         return carMap.containsKey(coord);
     }
 
+    /** gets the car at a coordinate */
     public JamCar getCar(Coordinates coord){
         return carMap.get(coord);
     }
 
-    public  int getRows() {
-        return rows;
-    }
-
-    public  int getColumns() {
-        return columns;
-    }
+    /** return the dimensions of the board */
+    public  int getRows() {return rows;}
+    public  int getColumns() {return columns;}
 
     /**
      * Return the string representation of the current row
@@ -176,6 +191,12 @@ public class JamConfig implements Configuration{
         return result;
     }
 
+    /**
+     * attempts to move a car to a given coordinate
+     * @param car car to be moved
+     * @param coord coordinate to be moved to
+     * @return null if move fails, new board state if move succeeds
+     */
     public JamConfig tryMove(JamCar car, Coordinates coord){
         int carEndCoordCol = car.getEndCoord().col();
         int carEndCoordRow = car.getEndCoord().row();

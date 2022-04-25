@@ -10,23 +10,20 @@ import puzzles.jam.model.JamModel;
 import java.io.PrintWriter;
 import java.util.List;
 
+/**
+ * Class that uses a Model object to run
+ * the jam game via the console
+ *
+ * @author Kelly Showers kds1653
+ */
+
 public class JamPTUI extends ConsoleApplication implements Observer<JamModel, String> {
+    //model being observed
     private JamModel model;
 
     /**
      * Used to prevent this class displaying any info before the UI
      * has been completely set up.
-     * Scenario:
-     * <ol>
-     *     <li>This class creates the model and registers with it.</li>
-     *     <li>Model initializes itself and updates its observers.</li>
-     *     <li>
-     *         This class attempts to display information, but
-     *         {@link #start(PrintWriter)} has not yet been called,
-     *         therefore the output stream has not yet been established.
-     *     </li>
-     *     <li>Pandemonium ensues.</li>
-     * </ol>
      */
     private boolean initialized;
 
@@ -63,6 +60,10 @@ public class JamPTUI extends ConsoleApplication implements Observer<JamModel, St
         this.out.println(this.getCurrentStep());
     }
 
+    /**
+     * launches the PTUI
+     * @param args the file with original gamestate
+     */
     public static void main(String[] args) {
         if (args.length != 1) {
             System.out.println("Usage: java JamPTUI filename");

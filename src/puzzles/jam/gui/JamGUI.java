@@ -24,24 +24,39 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 
+/**
+ * Class that uses a Model object to run
+ * the jam game via a visual display
+ *
+ * @author Kelly Showers kds1653
+ */
+
 public class JamGUI extends Application  implements Observer<JamModel, String>  {
     /** The resources directory is located directly underneath the gui package */
     private final static String RESOURCES_DIR = "resources/";
 
+    // the model being observed
     private JamModel model;
 
+    // whether or not the program has initialized yet
     private boolean initialized;
 
+    //filename of the current puzzle
     private String currentFile;
 
+    /** store the gui components that need updates */
     private BorderPane puzzle = new BorderPane();
     private Label status;
     private Stage stage;
 
-    // for demonstration purposes
+    // color of solution car
     private final static String X_CAR_COLOR = "#DF0101";
+
+    //size of text
     private final static int BUTTON_FONT_SIZE = 20;
+    //size of buttons
     private final static int ICON_SIZE = 75;
+    //colors to be used for cars
     private static HashMap<Character, Color> colorMap;
 
     /**
@@ -57,6 +72,9 @@ public class JamGUI extends Application  implements Observer<JamModel, String>  
         createColorMap();
     }
 
+    /**
+     * Creates the map of colors to the possible cars
+     */
     private void createColorMap(){
         colorMap = new HashMap<>();
         String letters = "ABCDEFGHIJKLMNOPQRSTUVWYZ";
@@ -137,6 +155,11 @@ public class JamGUI extends Application  implements Observer<JamModel, String>  
         stage.sizeToScene();
     }
 
+    /**
+     * Creates the board of cars for the puzzle
+     * @param config current board to be represented
+     * @return gridpane representation of current board
+     */
     public GridPane createBoard(JamConfig config){
         GridPane board = new GridPane();
 
@@ -163,6 +186,10 @@ public class JamGUI extends Application  implements Observer<JamModel, String>  
         return board;
     }
 
+    /**
+     * launches the application
+     * @param args initial puzzle file to load
+     */
     public static void main(String[] args) {
         Application.launch(args);
     }

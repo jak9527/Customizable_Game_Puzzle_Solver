@@ -8,6 +8,13 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 
+/**
+ * Class used to solve a jam puzzle using the Solver class
+ * and prints the path and config numbers
+ *
+ * @author Kelly Showers kds1653
+ */
+
 public class Jam {
     public static void main(String[] args) {
         if (args.length != 1) {

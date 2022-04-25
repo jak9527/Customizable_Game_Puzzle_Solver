@@ -5,13 +5,29 @@ import puzzles.common.Coordinates;
 import java.util.ArrayList;
 import java.util.Objects;
 
+/**
+ * Class used to represent a car in a jam puzzle
+ *
+ * @author Kelly Showers kds1653
+ */
+
 public class JamCar {
+    //Letter of car
     private char carLtr;
+    // Coordinates of car
     private Coordinates startCoord;
     private Coordinates endCoord;
+    //length of car
     private int length;
+    //Whether or not the car is facing horizontal
     private boolean horizontal;
 
+    /**
+     * Constructor for a car
+     * @param letter letter of a car
+     * @param start start of car coordinate
+     * @param end end of car coordinate
+     */
     public JamCar(char letter, Coordinates start, Coordinates end){
         this.carLtr = letter;
         this.startCoord = start;
@@ -25,23 +41,28 @@ public class JamCar {
         }
     }
 
+    /** checks if solution car has made it to the right side */
     public boolean isSolved(){
         return (endCoord.col() == JamConfig.columns - 1);
 
     }
 
+    /** gets the letter of the car */
     public char getCarLtr() {
         return carLtr;
     }
 
+    /** gets the start coord of the car */
     public Coordinates getStartCoord() {
         return startCoord;
     }
 
+    /** gets the end coord of the car */
     public Coordinates getEndCoord() {
         return endCoord;
     }
 
+    /** checks if car is horizontal */
     public boolean isHorizontal() {
         return horizontal;
     }

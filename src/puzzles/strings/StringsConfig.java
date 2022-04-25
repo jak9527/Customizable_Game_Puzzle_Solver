@@ -10,6 +10,8 @@ import java.util.Objects;
  *A class to hold a step of the string BFS process used by solver
  * contains the current string at a given step, and can generate
  * neighboring configs as well as check if it is the end string
+ *
+ * @author kds1653
  */
 
 public class StringsConfig implements Configuration {
