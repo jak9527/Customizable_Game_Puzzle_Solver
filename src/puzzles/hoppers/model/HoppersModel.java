@@ -170,12 +170,16 @@ public class HoppersModel {
 
                     }
                     else if(endR > startR){
-                        jumpedR = endR-1;
+                        jumpedR = endR+1;
                         if(endC > startC){
                             jumpedC = endC-1;
                         }
-                        else{
+                        else if(endC < startC){
                             jumpedC = endC+1;
+                        }
+                        else{
+                            alertObservers("(" + endR + ", " + endC + ")" +" Outside of movable area");
+                            return;
                         }
                     }
                 }
