@@ -86,10 +86,16 @@ public class Solver {
         return path;
     }
 
+    /**
+     * @return total configs generated
+     */
     public int getTotalConfigs() {
         return totalConfigs;
     }
 
+    /**
+     * @return unique configs generated
+     */
     public int getUniqueConfigs(){
         return uniqueConfigs;
     }
