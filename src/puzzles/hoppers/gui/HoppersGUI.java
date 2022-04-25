@@ -21,6 +21,7 @@ import javafx.application.Application;
 import javafx.stage.Stage;
 
 import java.io.File;
+import java.nio.file.Paths;
 
 /**
  * The GUI representation of the Hoppers puzzle
@@ -85,13 +86,23 @@ public class HoppersGUI extends Application implements Observer<HoppersModel, St
         this.topLabels.setHgap(30);
         this.borderPane.setTop(topLabels);
         Button hintButton = new Button("Hint");
+        hintButton.setPrefWidth(60);
+        hintButton.setBackground(new Background(new BackgroundFill(Color.rgb(214, 2, 112), CornerRadii.EMPTY, Insets.EMPTY)));
+        hintButton.setTextFill(Color.rgb(255, 255, 255));
         hintButton.setOnAction(event -> this.model.hint());
         this.bottomButtons.getChildren().add(hintButton);
         Button resetButton = new Button("Reset");
+        resetButton.setPrefWidth(60);
         resetButton.setOnAction(event -> this.model.reset());
+        resetButton.setBackground(new Background(new BackgroundFill(Color.rgb(155, 79, 150), CornerRadii.EMPTY, Insets.EMPTY)));
+        resetButton.setTextFill(Color.rgb(255, 255, 255));
         this.bottomButtons.getChildren().add(resetButton);
         FileChooser fileChooser = new FileChooser();
         Button loadButton = new Button("Load");
+        loadButton.setPrefWidth(60);
+        String currentPath = Paths.get(".").toAbsolutePath().normalize().toString();
+        currentPath += File.separator + "data" + File.separator + "hoppers";
+        fileChooser.setInitialDirectory(new File(currentPath));
         loadButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(final ActionEvent e) {
@@ -103,17 +114,20 @@ public class HoppersGUI extends Application implements Observer<HoppersModel, St
                 }
             }
         });
+        loadButton.setBackground(new Background(new BackgroundFill(Color.rgb(0, 56, 168), CornerRadii.EMPTY, Insets.EMPTY)));
+        loadButton.setTextFill(Color.rgb(255, 255, 255));
         this.bottomButtons.getChildren().add(loadButton);
 
         this.borderPane.setBottom(this.bottomButtons);
 
         this.scene = new Scene(borderPane);
         stage.setScene(this.scene);
-        BorderPane.setMargin(bottomButtons, new Insets(5, 0, 5, ((75*this.model.getCurrentConfig().getCol())/2.0)-63));
+        BorderPane.setMargin(bottomButtons, new Insets(5, 0, 5, ((75*this.model.getCurrentConfig().getCol())/2.0)-90));
         stage.setResizable(false);
         borderPane.setBackground(new Background(new BackgroundFill(Color.rgb(18, 145, 227), CornerRadii.EMPTY, Insets.EMPTY)));
 //        Color.rgb(18, 145, 227)
         this.stage = stage;
+        this.stage.setTitle("Hoppers GUI");
         stage.show();
 
     }
